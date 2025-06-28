@@ -6,31 +6,26 @@ body {
   color: #333;
   transition: background-color 0.3s, color 0.3s;
 }
-
 a {
   color: #99cc33;
   font-weight: bold;
   text-decoration: none;
 }
-
 a:hover {
   color: #ffcc00;
   text-decoration: underline;
 }
-
 header {
   background: #333;
   color: white;
   padding: 20px;
   text-align: center;
 }
-
 .intro {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .profile-pic {
   width: 150px;
   height: 150px;
@@ -38,35 +33,29 @@ header {
   object-fit: cover;
   margin-bottom: 15px;
 }
-
 main {
   padding: 30px;
   max-width: 1000px;
   margin: 0 auto;
 }
-
 nav {
   background: #fff;
   text-align: center;
   padding: 10px;
 }
-
 nav a {
   margin: 0 15px;
 }
-
 section {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   margin-bottom: 40px;
 }
-
 section.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
 .cards {
   list-style: none;
   display: grid;
@@ -75,7 +64,6 @@ section.visible {
   padding: 0;
   margin-top: 20px;
 }
-
 .card {
   background: white;
   padding: 20px;
@@ -83,19 +71,16 @@ section.visible {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   opacity: 0;
   transform: translateY(20px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease;
 }
-
 .card.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-
 .resume-button {
   display: inline-block;
   margin: 20px auto;
@@ -108,18 +93,15 @@ section.visible {
   text-decoration: none;
   text-align: center;
 }
-
 .resume-button:hover {
   background-color: #88bb2a;
 }
-
 footer {
   text-align: center;
   padding: 20px;
   background: #336600;
   color: white;
 }
-
 .toggle-theme {
   position: fixed;
   top: 10px;
@@ -132,25 +114,20 @@ footer {
   cursor: pointer;
   z-index: 10000;
 }
-
 .dark-mode {
   background-color: #1e1e1e;
   color: #f1f1f1;
 }
-
 .dark-mode .card {
   background-color: #2e2e2e;
   color: #f1f1f1;
 }
-
 .dark-mode a {
   color: #b4ec51;
 }
-
 .dark-mode a:hover {
   color: #ffff66;
 }
-
 @media screen and (max-width: 600px) {
   .intro {
     padding: 10px;
@@ -159,4 +136,3 @@ footer {
     padding: 15px;
   }
 }
-
