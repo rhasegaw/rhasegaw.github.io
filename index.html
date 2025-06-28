@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html>
-<frameset rows="20%,80%">
-    <frame src="frame1.html">
-    <frameset cols="30%,70%">
-        <frame src="frame2.html">
-        <frame src="frame3.html">
-    </frameset>
-</frameset>
-</html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="intro">
+      <img src="profile.jpg" alt="My Photo" class="profile-pic">
+      <div class="intro-text">
+        <h1>Ryo Hasegawa</h1>
+        <p>Bachelor in Business Analytics & Information Management</p>
+        <p><a href="www.linkedin.com/in/ryo-hasegawa-5b078a292">LinkedIn</a> | <a href="mailto:ryo20020926@outook.com">ryo20020926@outook.com</a></p>
+        <p>I am actively seeking a full-time opportunity where I can utilize my bilingual skills (Japanese/English) and analytical expertise to support impactful decision-making.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="projects">
+      <h2>School Projects</h2>
+      <div class="content">
+        <!-- Dynamic PHP content will be inserted here -->
+        <?php include('projects.php'); ?>
+      </div>
+    </section>
+
+    <section id="freelance">
+      <h2>Freelance Works</h2>
+      <div class="content">
+        <?php include('freelance.php'); ?>
+      </div>
+    </section>
+
+    <section id="experience">
+      <h2>Part-Time / Contract Experiences</h2>
+      <div class="content">
+        <?php include('experience.php'); ?>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ryo Hasegawa. All rights reserved.</p>
+  </footer>
+</body>
