@@ -7,154 +7,168 @@
   <link rel="stylesheet" href="style.css">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f5f5;
-      color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
-
-    header {
-      background: linear-gradient(to right, #99cc33, #ffcc00);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .intro {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .profile-pic {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-
-    .intro-text p {
-      margin: 5px 0;
-    }
-
-    nav {
-      background: #e6f2cc;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #336600;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      padding: 30px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    section {
-      margin-bottom: 40px;
-    }
-
-    h2 {
-      color: #444;
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 10px;
-    }
-
-    .cards {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 0;
-      margin-top: 20px;
-    }
-
     .card {
       background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    .card h3 {
-      margin-top: 0;
-      color: #222;
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-
-    .card a {
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .resume-button {
       display: inline-block;
-      margin-top: 10px;
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    .card a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #336600;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #99cc33;
       color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
     }
-
-    @media screen and (max-width: 600px) {
-      .intro {
-        padding: 10px;
-      }
-      main {
-        padding: 15px;
-      }
+    .resume-button:hover {
+      background-color: #88bb2a;
+    }
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+    }
+    .dark-mode .card {
+      background-color: #2e2e2e;
+      color: #f1f1f1;
+    }
+    .toggle-theme {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #444;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const projects = [
+        { title: "F1 Race Prediction Dashboard", description: "Built using Python and Tableau to forecast Formula 1 race outcomes based on historical data.", link: "#" },
+        { title: "California Homelessness Data Analysis", description: "Analyzed hospital encounter data using regression and geospatial mapping.", link: "#" },
+        { title: "Disaster Tweet Classification (Kaggle)", description: "NLP project for identifying real vs. fake disaster tweets using TF-IDF and LSTM.", link: "#" }
+      ];
+
+      const freelance = [
+        { title: "Sales Dashboard for Retail Client", description: "Designed an Excel-based dashboard summarizing monthly sales trends.", link: "#" },
+        { title: "RFM Analysis for E-commerce Store", description: "Performed customer segmentation using R and RFM modeling.", link: "#" },
+        { title: "Survey Insights Dashboard", description: "Created interactive visualizations from Qualtrics survey data.", link: "#" }
+      ];
+
+      const experience = [
+        { title: "AI Tutor at Outlier.org", description: "Reviewed and verified AI-generated code and answers for programming support.", link: "#" },
+        { title: "Search Quality Rater at RWS", description: "Evaluated Japanese-English web content for search result accuracy.", link: "#" },
+        { title: "Clerk at Crescent Bakery", description: "Managed inventory, processed transactions, and supported operations.", link: "#" }
+      ];
+
+      function createCards(data, targetId) {
+        const html = data.map(item => `
+          <li class="card">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <a href="${item.link}">View More</a>
+          </li>
+        `).join("");
+        const container = document.getElementById(targetId);
+        container.innerHTML = html;
+        [...container.children].forEach(card => observer.observe(card));
+      }
+
+      createCards(projects, "project-cards");
+      createCards(freelance, "freelance-cards");
+      createCards(experience, "experience-cards");
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      document.querySelectorAll("section").forEach(section => observer.observe(section));
+
+      const themeToggle = document.getElementById("theme-toggle");
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+      }
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+          localStorage.setItem("theme", "dark");
+        } else {
+          localStorage.setItem("theme", "light");
+        }
+      });
+    });
+  </script>
 </head>
 <body>
+  <button id="theme-toggle" class="toggle-theme">Toggle Dark Mode</button>
   <header>
     <div class="intro">
       <img src="profile.jpg" alt="My Photo" class="profile-pic">
       <div class="intro-text">
         <h1>Ryo Hasegawa</h1>
         <p>Bachelor in Business Analytics & Information Management / Purdue University West Lafayette</p>
-        <p><a href="www.linkedin.com/in/ryo-hasegawa-5b078a292">LinkedIn</a> | <a href="mailto:ryo20020926@outook.com">ryo20020926@outook.com</a></p>
+        <p><a href="https://www.linkedin.com/in/ryo-hasegawa-5b078a292">LinkedIn</a> | <a href="mailto:ryo20020926@outlook.com">ryo20020926@outlook.com</a></p>
         <p>I am actively seeking a full-time opportunity where I can utilize my bilingual skills (Japanese/English) and analytical expertise to support impactful decision-making.</p>
+        <a href="resume.pdf" class="resume-button" download>Download Resume</a>
       </div>
     </div>
   </header>
 
+  <nav>
+    <a href="#projects">School Projects</a>
+    <a href="#freelance">Freelance Works</a>
+    <a href="#experience">Part-Time / Contract Experiences</a>
+  </nav>
+
   <main>
     <section id="projects">
       <h2>School Projects</h2>
-      <div class="content">
-        <!-- Dynamic PHP content will be inserted here -->
-        <?php include('projects.php'); ?>
-      </div>
+      <ul class="cards" id="project-cards"></ul>
     </section>
 
     <section id="freelance">
       <h2>Freelance Works</h2>
-      <div class="content">
-        <?php include('freelance.php'); ?>
-      </div>
+      <ul class="cards" id="freelance-cards"></ul>
     </section>
 
     <section id="experience">
       <h2>Part-Time / Contract Experiences</h2>
-      <div class="content">
-        <?php include('experience.php'); ?>
-      </div>
+      <ul class="cards" id="experience-cards"></ul>
     </section>
   </main>
 
@@ -162,3 +176,4 @@
     <p>&copy; 2025 Ryo Hasegawa. All rights reserved.</p>
   </footer>
 </body>
+</html>
