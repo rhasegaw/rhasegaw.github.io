@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.1 });
+
   const projects = [
     { title: "F1 Race Prediction Dashboard", description: "Built using Python and Tableau to forecast Formula 1 race outcomes based on historical data.", link: "#" },
     { title: "California Homelessness Data Analysis", description: "Analyzed hospital encounter data using regression and geospatial mapping.", link: "#" },
@@ -34,14 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
   createCards(freelance, "freelance-cards");
   createCards(experience, "experience-cards");
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  }, { threshold: 0.1 });
-
   document.querySelectorAll("section").forEach(section => observer.observe(section));
 
   const themeToggle = document.getElementById("theme-toggle");
@@ -53,4 +53,5 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
   });
 });
+
 
