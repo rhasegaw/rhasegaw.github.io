@@ -40,9 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         entry.target.classList.add("visible");
       }
     });
-  }, {
-    threshold: 0.1
-  });
+  }, { threshold: 0.1 });
 
   document.querySelectorAll("section").forEach(section => observer.observe(section));
 
@@ -52,10 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-      localStorage.setItem("theme", "dark");
-    } else {
-      localStorage.setItem("theme", "light");
-    }
+    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
   });
 });
+
