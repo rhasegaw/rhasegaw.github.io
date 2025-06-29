@@ -7,8 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 🌙 Dark Mode Toggle Button -->
+  <button id="theme-toggle" class="floating-toggle">🌙</button>
+
+  <!-- ⏳ Preloader -->
   <div id="preloader">Loading...</div>
 
+  <!-- 👤 Header -->
   <header>
     <div class="intro">
       <img src="profile.jpg" alt="My Photo" class="profile-pic" />
@@ -25,16 +30,15 @@
     </div>
   </header>
 
+  <!-- 📎 Navigation -->
   <nav>
-  <div class="nav-links">
     <a href="#projects">School Projects</a>
     <a href="#freelance">Freelance Works</a>
     <a href="#experience">Part-Time / Contract Experiences</a>
     <a href="#certifications">Certifications</a>
-  </div>
-  <button id="theme-toggle">🌙 Dark Mode</button>
-</nav>
+  </nav>
 
+  <!-- 🧠 Main Sections -->
   <main>
     <section id="projects">
       <h2>School Projects</h2>
@@ -57,10 +61,12 @@
     </section>
   </main>
 
+  <!-- 🔻 Footer -->
   <footer>
     <p>&copy; 2025 Ryo Hasegawa. All rights reserved.</p>
   </footer>
 
+  <!-- 📜 Scripts -->
   <script src="script.js"></script>
   <script>
     window.addEventListener("load", () => {
