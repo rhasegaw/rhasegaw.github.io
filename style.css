@@ -159,3 +159,26 @@ footer {
   font-size: 18px;
 }
 
+nav {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #669900;
+  font-weight: bold;
+}
+
+nav button#theme-toggle {
+  background: #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
