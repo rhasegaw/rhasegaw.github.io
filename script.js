@@ -53,17 +53,50 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const certifications = [
-    {
-      title: "Google Data Analytics",
-      description: "Completed 8-course certificate in data analytics.",
-      image: "img/google_cert.png"
-    },
-    {
-      title: "Tableau Desktop Specialist",
-      description: "Certified Tableau analyst for dashboard creation.",
-      image: "img/tableau.png"
-    }
-  ];
+  {
+    title: "Responsive Web Design",
+    description: "Earned from freeCodeCamp by building mobile-friendly, accessible websites using HTML and CSS.",
+    link: "https://www.freecodecamp.org/certification/your-id/responsive-web-design", // replace with actual
+    image: "img/cert_web_design.png"
+  },
+  {
+    title: "Foundational C# with Microsoft",
+    description: "Completed Microsoft's beginner C# programming course focusing on .NET basics and logic structures.",
+    link: "https://learn.microsoft.com/training/achievements/your-id", // update with your link
+    image: "img/cert_csharp.png"
+  },
+  {
+    title: "Data Analysis with Python",
+    description: "Used NumPy, Pandas, and SciPy to analyze datasets and build statistical models (freeCodeCamp).",
+    link: "https://www.freecodecamp.org/certification/your-id/data-analysis-with-python",
+    image: "img/cert_data_analysis.png"
+  },
+  {
+    title: "Data Visualization",
+    description: "Visualized data using Matplotlib, Seaborn, and Plotly (freeCodeCamp).",
+    link: "https://www.freecodecamp.org/certification/your-id/data-visualization",
+    image: "img/cert_data_vis.png"
+  },
+  {
+    title: "Kaggle Python Certificate",
+    description: "Completed Python micro-course by Kaggle including functions, loops, and data structures.",
+    link: "https://www.kaggle.com/learn/certification/your-id/python",
+    image: "img/cert_kaggle_python.png"
+  },
+  {
+    title: "Advanced SQL Certificate",
+    description: "Advanced SQL techniques for complex queries, joins, and window functions (Kaggle).",
+    link: "https://www.kaggle.com/learn/certification/your-id/advanced-sql",
+    image: "img/cert_sql.png"
+  },
+  {
+    title: "Microsoft AI-900",
+    description: "Certified in Microsoft Azure AI Fundamentals, covering machine learning and cognitive services.",
+    link: "https://learn.microsoft.com/credentials/certifications/azure-ai-fundamentals/",
+    image: "img/cert_ai900.png"
+  }
+];
+
 
   // === 🔼 End card data section ===
 
