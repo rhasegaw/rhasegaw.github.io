@@ -1,158 +1,138 @@
+/* Reset & Base Styles */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f5f5f5;
-  color: #333;
-  transition: background 0.3s, color 0.3s;
+  font-family: "Segoe UI", sans-serif;
+  transition: background-color 0.4s, color 0.4s;
+  background-color: #f0f0f0;
+  color: #222;
 }
 
 .dark-mode {
+  background-color: #121212;
+  color: #ddd;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #333;
+  color: white;
+  position: relative;
+}
+
+.dark-mode header {
   background: #111;
   color: #eee;
 }
 
-header {
-  background: #333;
-  color: white;
-  text-align: center;
-  padding: 30px 20px;
-  position: relative;
-}
-
-.profile-pic {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #99cc33;
-  margin-bottom: 10px;
-}
-
-.intro-text a {
-  color: #99cc33;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.intro-text a:hover {
-  text-decoration: underline;
-}
-
-.download-resume {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 20px;
-  background: #99cc33;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-}
-
-.download-resume:hover {
-  background: #88bb22;
-}
-
+/* Toggle Button */
 #theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #669900;
-  color: white;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.3rem 0.6rem;
   border: none;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  border-radius: 5px;
+  background: #555;
+  color: white;
   cursor: pointer;
-  z-index: 1000;
+  font-size: 0.9rem;
+  transition: background 0.3s;
 }
 
-nav {
-  text-align: center;
-  padding: 15px;
-  background: #fff;
-  border-bottom: 1px solid #ccc;
+#theme-toggle:hover {
+  background: #777;
 }
 
-nav a {
-  margin: 0 15px;
-  text-decoration: none;
-  color: #669900;
+/* Resume Button */
+.download-btn {
+  margin: 1rem auto;
+  padding: 0.6rem 1.4rem;
+  background: #a2d149;
+  color: black;
   font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s ease;
 }
 
-main {
-  padding: 30px 15px;
-  max-width: 1200px;
-  margin: auto;
+.download-btn:hover {
+  background: #8cc63f;
+}
+
+.dark-mode .download-btn {
+  background: #d9ff8c;
+  color: #111;
+}
+
+/* Section Styles */
+section {
+  margin: 2rem;
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
+  padding-bottom: 0.3rem;
 }
 
-.cards-container {
+.card-scroll-wrapper {
   display: flex;
   overflow-x: auto;
-  gap: 20px;
-  padding: 20px 0;
+  gap: 1rem;
+  padding: 1rem 0;
   scroll-snap-type: x mandatory;
 }
 
-.card {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  min-width: 250px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  transform: translateY(40px);
+.card-scroll-wrapper::-webkit-scrollbar {
+  height: 8px;
 }
 
-.card.visible {
-  opacity: 1;
-  transform: translateY(0);
+.card-scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 320px;
+  scroll-snap-align: start;
+  background: white;
+  color: #111;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
 }
 
 .card img {
   width: 100%;
-  max-height: 120px;
-  object-fit: contain;
-  margin-bottom: 10px;
+  max-height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .card h3 {
-  font-size: 18px;
-  margin: 10px 0 5px;
-  color: #222;
+  margin: 0.5rem 0;
 }
 
 .card p {
-  font-size: 14px;
-  margin-bottom: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
-footer {
-  text-align: center;
-  padding: 15px;
-  background: #333;
-  color: white;
+.card:hover {
+  transform: translateY(-4px);
 }
 
-@media (max-width: 768px) {
-  nav a {
-    display: block;
-    margin: 10px 0;
-  }
-  .cards-container {
-    padding: 10px 0;
-  }
+.dark-mode .card {
+  background: #1e1e1e;
+  color: #eaeaea;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
 }
+
 
