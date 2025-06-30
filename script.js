@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const experience = [
-    { title: "AI Tutor at Outlier.org", description: "Reviewed and verified AI-generated code and answers for programming support.", link: "#" },
+    { title: "AI Tutor at Outlier.ai", description: "Reviewed and verified AI-generated code and answers for programming support.", link: "#" },
     { title: "Search Quality Rater at RWS", description: "Evaluated Japanese-English web content for search result accuracy.", link: "#" },
     { title: "Clerk at Crescent Bakery", description: "Managed inventory, processed transactions, and supported operations.", link: "#" }
   ];
