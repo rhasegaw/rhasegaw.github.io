@@ -2,58 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ryo Hasegawa Portfolio</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
+  <button id="theme-toggle">🌗</button>
+
   <header>
-    <div class="intro">
-      <img src="profile.jpg" alt="My Photo" class="profile-pic" />
-      <div class="intro-text">
-        <h1>Ryo Hasegawa</h1>
-        <p>Bachelor in Business Analytics & Information Management / Purdue University West Lafayette</p>
-        <p><a href="https://www.linkedin.com/in/ryo-hasegawa-5b078a292" target="_blank">LinkedIn</a> | <a href="mailto:ryo20020926@outlook.com">ryo20020926@outlook.com</a></p>
-        <p>I am actively seeking a full-time opportunity where I can utilize my bilingual skills (Japanese/English) and analytical expertise to support impactful decision-making.</p>
-        <a href="resume.pdf" download class="download-resume">Download Resume</a>
-      </div>
-    </div>
-    <button id="theme-toggle">Toggle Dark Mode</button>
+    <img src="img/profile.jpg" alt="Ryo Hasegawa" class="profile-pic" />
+    <h1>Ryo Hasegawa</h1>
+    <p>Bachelor in Business Analytics & Information Management / Purdue University West Lafayette</p>
+    <p>
+      <a href="https://linkedin.com" class="highlight">LinkedIn</a> |
+      <a href="mailto:ryo20020926@outlook.com" class="highlight">ryo20020926@outlook.com</a>
+    </p>
+    <p>I am actively seeking a full-time opportunity where I can utilize my bilingual skills (Japanese/English) and analytical expertise to support impactful decision-making.</p>
+    <a href="resume.pdf" class="resume-button highlight" download>Download Resume</a>
   </header>
 
-  <nav>
-    <a href="#projects">School Projects</a>
-    <a href="#freelance">Freelance Works</a>
-    <a href="#experience">Part-Time / Contract Experiences</a>
-    <a href="#certifications">Certifications</a>
+  <nav class="section-nav">
+    <a href="#project-cards">School Projects</a>
+    <a href="#freelance-cards">Freelance Works</a>
+    <a href="#experience-cards">Part-Time / Contract Experiences</a>
+    <a href="#certification-cards">Certifications</a>
   </nav>
 
   <main>
-    <section id="projects">
+    <section>
       <h2>School Projects</h2>
-      <ul class="cards-container" id="project-cards"></ul>
+      <ul id="project-cards" class="card-scroll"></ul>
     </section>
 
-    <section id="freelance">
+    <section>
       <h2>Freelance Works</h2>
-      <ul class="cards-container" id="freelance-cards"></ul>
+      <ul id="freelance-cards" class="card-scroll"></ul>
     </section>
 
-    <section id="experience">
+    <section>
       <h2>Part-Time / Contract Experiences</h2>
-      <ul class="cards-container" id="experience-cards"></ul>
+      <ul id="experience-cards" class="card-scroll"></ul>
     </section>
 
-    <section id="certifications">
+    <section>
       <h2>Certifications</h2>
-      <ul class="cards-container" id="certification-cards"></ul>
+      <ul id="certification-cards" class="card-scroll"></ul>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2025 Ryo Hasegawa. All rights reserved.</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
 
