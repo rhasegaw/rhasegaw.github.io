@@ -1,58 +1,77 @@
-/* 🌐 Base Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
+  padding: 0;
   background: #f5f5f5;
   color: #333;
-  transition: background 0.4s, color 0.4s;
+  transition: background 0.3s, color 0.3s;
 }
 
 .dark-mode {
-  background: #121212;
-  color: #e0e0e0;
+  background: #111;
+  color: #eee;
 }
 
-/* 🔲 Header */
 header {
   background: #333;
   color: white;
   text-align: center;
   padding: 30px 20px;
+  position: relative;
 }
 
 .profile-pic {
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #99cc33;
   margin-bottom: 10px;
 }
 
-.intro a {
+.intro-text a {
   color: #99cc33;
+  text-decoration: none;
   font-weight: bold;
 }
 
-.btn {
+.intro-text a:hover {
+  text-decoration: underline;
+}
+
+.download-resume {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 12px;
+  padding: 10px 20px;
   background: #99cc33;
   color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
   text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
-.btn:hover {
-  background: #88b930;
+.download-resume:hover {
+  background: #88bb22;
 }
 
-/* 🔗 Navigation */
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #669900;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 nav {
-  background: white;
   text-align: center;
-  padding: 10px 0;
-  border-top: 1px solid #ccc;
+  padding: 15px;
+  background: #fff;
   border-bottom: 1px solid #ccc;
 }
 
@@ -63,62 +82,38 @@ nav a {
   font-weight: bold;
 }
 
-/* 💬 Floating Theme Toggle */
-.floating-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-  background: #669900;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.floating-toggle:hover {
-  background: #557700;
-}
-
-/* 📄 Content */
 main {
-  padding: 20px;
-}
-
-section {
-  margin-bottom: 50px;
+  padding: 30px 15px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 h2 {
+  font-size: 24px;
   margin-bottom: 10px;
   border-bottom: 2px solid #ccc;
   padding-bottom: 5px;
 }
 
-/* 🎴 Card Styles */
-.cards.scrollable {
+.cards-container {
   display: flex;
   overflow-x: auto;
-  gap: 16px;
+  gap: 20px;
+  padding: 20px 0;
   scroll-snap-type: x mandatory;
-  padding: 10px 0;
 }
 
 .card {
   background: white;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  min-width: 280px;
-  max-width: 300px;
+  padding: 20px;
+  min-width: 250px;
+  flex: 0 0 auto;
   scroll-snap-align: start;
-  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.5s ease;
+  transform: translateY(40px);
 }
 
 .card.visible {
@@ -128,52 +123,36 @@ h2 {
 
 .card img {
   width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
+  max-height: 120px;
+  object-fit: contain;
   margin-bottom: 10px;
 }
 
 .card h3 {
-  margin: 5px 0;
   font-size: 18px;
+  margin: 10px 0 5px;
+  color: #222;
 }
 
 .card p {
   font-size: 14px;
+  margin-bottom: 0;
 }
 
-.card a {
-  display: inline-block;
-  margin-top: 10px;
-  color: #0066cc;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.card a:hover {
-  text-decoration: underline;
-}
-
-/* 🦶 Footer */
 footer {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   background: #333;
   color: white;
 }
 
-/* ⏳ Preloader */
-#preloader {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: white;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 18px;
+@media (max-width: 768px) {
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+  .cards-container {
+    padding: 10px 0;
+  }
 }
 
