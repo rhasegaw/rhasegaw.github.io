@@ -24,32 +24,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // === 🔽 Add your cards here 🔽 ===
 
   const projects = [
-    {
-      title: "F1 Race Prediction Dashboard",
-      description: "Built using Python and Tableau to forecast race outcomes.",
-      link: "#",
-      image: "img/f1.png"
-    },
-    {
-      title: "Disaster Tweet Classification",
-      description: "NLP project using LSTM to classify tweets during disasters.",
-      link: "#"
-    }
+    { title: "F1 Race Prediction Dashboard", description: "Built using Python and Tableau to forecast Formula 1 race outcomes based on historical data.", link: "#" },
+    { title: "California Homelessness Data Analysis", description: "Analyzed hospital encounter data using regression and geospatial mapping.", link: "#" },
+    { title: "Disaster Tweet Classification (Kaggle)", description: "NLP project for identifying real vs. fake disaster tweets using TF-IDF and LSTM.", link: "#" }
   ];
 
   const freelance = [
-    {
-      title: "Sales Dashboard",
-      description: "Retail client Excel-based dashboard.",
-      link: "#"
-    }
+    { title: "Sales Dashboard for Retail Client", description: "Designed an Excel-based dashboard summarizing monthly sales trends.", link: "#" },
+    { title: "RFM Analysis for E-commerce Store", description: "Performed customer segmentation using R and RFM modeling.", link: "#" },
+    { title: "Survey Insights Dashboard", description: "Created interactive visualizations from Qualtrics survey data.", link: "#" }
   ];
 
   const experience = [
-    {
-      title: "AI Tutor at Outlier",
-      description: "Reviewed and corrected AI-generated Python code."
-    }
+    { title: "AI Tutor at Outlier.org", description: "Reviewed and verified AI-generated code and answers for programming support.", link: "#" },
+    { title: "Search Quality Rater at RWS", description: "Evaluated Japanese-English web content for search result accuracy.", link: "#" },
+    { title: "Clerk at Crescent Bakery", description: "Managed inventory, processed transactions, and supported operations.", link: "#" }
   ];
 
   const certifications = [
