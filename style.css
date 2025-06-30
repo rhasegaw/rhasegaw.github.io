@@ -1,138 +1,120 @@
-/* Reset & Base Styles */
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  transition: background-color 0.4s, color 0.4s;
-  background-color: #f0f0f0;
-  color: #222;
+  font-family: Arial, sans-serif;
+  background: #f6f6f6;
+  color: #111;
+  transition: background 0.3s, color 0.3s;
 }
-
 .dark-mode {
-  background-color: #121212;
-  color: #ddd;
+  background: #121212;
+  color: #e2e2e2;
 }
-
-/* Header */
 header {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 2rem;
   background: #333;
   color: white;
-  position: relative;
 }
-
-.dark-mode header {
-  background: #111;
-  color: #eee;
+.profile-pic {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
 }
-
-/* Toggle Button */
-#theme-toggle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.3rem 0.6rem;
-  border: none;
-  border-radius: 5px;
-  background: #555;
-  color: white;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s;
-}
-
-#theme-toggle:hover {
-  background: #777;
-}
-
-/* Resume Button */
-.download-btn {
-  margin: 1rem auto;
-  padding: 0.6rem 1.4rem;
-  background: #a2d149;
-  color: black;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  display: inline-block;
-  transition: background-color 0.3s ease;
-}
-
-.download-btn:hover {
-  background: #8cc63f;
-}
-
-.dark-mode .download-btn {
-  background: #d9ff8c;
-  color: #111;
-}
-
-/* Section Styles */
-section {
-  margin: 2rem;
-}
-
-h2 {
-  margin-bottom: 0.5rem;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 0.3rem;
-}
-
-.card-scroll-wrapper {
-  display: flex;
-  overflow-x: auto;
-  gap: 1rem;
-  padding: 1rem 0;
-  scroll-snap-type: x mandatory;
-}
-
-.card-scroll-wrapper::-webkit-scrollbar {
-  height: 8px;
-}
-
-.card-scroll-wrapper::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 4px;
-}
-
-.card {
-  flex: 0 0 auto;
-  width: 320px;
-  scroll-snap-align: start;
-  background: white;
-  color: #111;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.card img {
-  width: 100%;
-  max-height: 140px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-
-.card h3 {
+h1 {
   margin: 0.5rem 0;
 }
-
-.card p {
-  font-size: 0.95rem;
-  line-height: 1.4;
+.highlight {
+  color: #ccff00;
 }
-
-.card:hover {
-  transform: translateY(-4px);
+.resume-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  background: #ccff00;
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
 }
-
+.section-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  background: white;
+}
+.section-nav a {
+  text-decoration: none;
+  color: #333;
+}
+.dark-mode .section-nav {
+  background: #1c1c1c;
+}
+main {
+  padding: 2rem;
+}
+section {
+  margin-bottom: 3rem;
+}
+h2 {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #aaa;
+  padding-bottom: 0.3rem;
+}
+ul.card-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0;
+  list-style: none;
+  scrollbar-width: thin;
+}
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  padding: 1rem;
+  min-width: 300px;
+  max-width: 300px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .dark-mode .card {
   background: #1e1e1e;
-  color: #eaeaea;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+  color: #ddd;
+}
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 1rem;
+  background: #f0f0f0;
+}
+.dark-mode footer {
+  background: #1c1c1c;
+}
+#theme-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 1000;
 }
 
 
