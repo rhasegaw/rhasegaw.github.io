@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const createCards = (data, targetId) => {
     const container = document.getElementById(targetId);
+    container.classList.add("card-container");
     const html = data.map(item => `
       <li class="card">
         ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
