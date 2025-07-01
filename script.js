@@ -10,20 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const createCards = (data, targetId) => {
     const container = document.getElementById(targetId);
     const html = data.map(item => `
-      <li class="card">
+      <div class="card">
         ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
         <h3>${item.title}</h3>
         <p>${item.description}</p>
-      </li>
+        ${item.link ? `<a href="${item.link}" target="_blank">View More</a>` : ''}
+      </div>
     `).join('');
     container.innerHTML = html;
     [...container.children].forEach(card => observer.observe(card));
   };
 
+  // === Add card content below ===
   const projects = [
     { title: "F1 Race Prediction Dashboard", description: "Built using Python and Tableau to forecast Formula 1 race outcomes based on historical data.", image: "img/f1.png" },
-    { title: "California Homelessness Data Analysis", description: "Analyzed hospital encounter data using regression and geospatial mapping.", image: "img/california.png" },
-    { title: "Disaster Tweet Classification (Kaggle)", description: "NLP project for identifying real vs. fake disaster tweets using TF-IDF and LSTM.", image: "img/disaster.png" }
+    { title: "California Homelessness Data Analysis", description: "Analyzed hospital encounter data using regression and geospatial mapping.", image: "img/homeless.png" },
+    { title: "Disaster Tweet Classification (Kaggle)", description: "NLP project for identifying real vs. fake disaster tweets using TF-IDF and LSTM.", image: "img/tweet.png" }
   ];
 
   const freelance = [
@@ -40,12 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const certifications = [
     { title: "Responsive Web Design", description: "Earned from freeCodeCamp by building mobile-friendly, accessible websites using HTML and CSS.", image: "img/cert_web_design.png" },
-    { title: "Foundational C# with Microsoft", description: "Completed beginner C# programming course with .NET basics.", image: "img/cert_csharp.png" },
-    { title: "Data Analysis with Python", description: "Used NumPy, Pandas, and SciPy to analyze datasets and build statistical models.", image: "img/cert_data_analysis.png" },
-    { title: "Data Visualization", description: "Visualized data using Matplotlib, Seaborn, and Plotly.", image: "img/cert_data_vis.png" },
-    { title: "Kaggle Python Certificate", description: "Completed Python micro-course including functions, loops, and data structures.", image: "img/cert_kaggle_python.png" },
-    { title: "Advanced SQL Certificate", description: "Advanced SQL techniques for complex queries, joins, and window functions.", image: "img/cert_sql.png" },
-    { title: "Microsoft AI-900", description: "Certified in Microsoft Azure AI Fundamentals, covering machine learning and cognitive services.", image: "img/cert_ai900.png" }
+    { title: "Foundational C# with Microsoft", description: "Completed Microsoft's beginner C# course on .NET basics.", image: "img/cert_csharp.png" },
+    { title: "Data Analysis with Python", description: "Used NumPy, Pandas, and SciPy to analyze datasets (freeCodeCamp).", image: "img/cert_data_analysis.png" },
+    { title: "Data Visualization", description: "Visualized data using Matplotlib, Seaborn, and Plotly (freeCodeCamp).", image: "img/cert_data_vis.png" },
+    { title: "Kaggle Python Certificate", description: "Completed Python micro-course by Kaggle covering functions, loops, and data structures.", image: "img/cert_kaggle_python.png" },
+    { title: "Advanced SQL Certificate", description: "Advanced SQL techniques including joins, CTEs, and window functions (Kaggle).", image: "img/cert_sql.png" },
+    { title: "Microsoft AI-900", description: "Certified in Microsoft Azure AI Fundamentals.", image: "img/cert_ai900.png" }
   ];
 
   createCards(projects, "project-cards");
@@ -63,5 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
   });
 });
+
 
 
