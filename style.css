@@ -1,46 +1,128 @@
+/* Base Styles */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background-color: #f0f0f0;
   color: #111;
-  transition: background 0.3s, color 0.3s;
-}
-
-.dark-mode {
-  background: #111;
-  color: #eee;
 }
 
 header {
+  background-color: #333;
+  color: white;
   text-align: center;
-  background: #222;
   padding: 2rem 1rem;
   position: relative;
-  color: #fff;
 }
 
-.profile-pic {
+header img {
   width: 120px;
+  height: 120px;
   border-radius: 50%;
+  object-fit: cover;
   margin-bottom: 1rem;
 }
 
-.highlight {
-  color: #b2ff00;
-  text-decoration: none;
+.contact-links {
+  margin: 1rem 0;
 }
 
-.resume-button {
-  display: inline-block;
-  background: #d4ff3c;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  margin-top: 0.5rem;
+.highlight-link {
+  color: #d4ff00;
   font-weight: bold;
   text-decoration: none;
-  color: black;
 }
 
+.resume-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #d4ff00;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.resume-btn:hover {
+  background-color: #c1ea00;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background: white;
+  padding: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+section {
+  padding: 2rem 1rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #aaa;
+  padding-bottom: 0.5rem;
+}
+
+.card-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-container li {
+  flex: 0 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 1rem;
+  max-width: 300px;
+  min-width: 250px;
+  color: #111;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f9f9f9;
+}
+
+/* Dark Mode */
+body.dark {
+  background-color: #1e1e1e;
+  color: #ddd;
+}
+
+body.dark header {
+  background-color: #111;
+}
+
+body.dark .card-container li {
+  background-color: #2c2c2c;
+  color: #eee;
+}
+
+body.dark nav {
+  background: #2c2c2c;
+  color: white;
+}
+
+body.dark .resume-btn {
+  background-color: #d4ff00;
+  color: #000;
+}
+
+/* Toggle Button */
 #theme-toggle {
   position: absolute;
   top: 1rem;
@@ -49,85 +131,5 @@ header {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-}
-
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  background: #fff;
-  padding: 1rem;
-  font-weight: bold;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-
-.tabs a {
-  color: black;
-  text-decoration: none;
-}
-
-main {
-  padding: 2rem;
-}
-
-h2 {
-  margin-top: 2rem;
-  border-bottom: 2px solid #aaa;
-  padding-bottom: 0.5rem;
-}
-
-.card-list {
-  display: flex;
-  overflow-x: auto;
-  list-style: none;
-  padding: 1rem 0;
-  gap: 1rem;
-}
-
-.card {
-  background: white;
-  border-radius: 10px;
-  padding: 1rem;
-  min-width: 250px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  flex: 0 0 auto;
-  transition: transform 0.3s;
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-}
-
-.card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.card p {
-  color: #333;
-}
-
-.dark-mode .card {
-  background: #222;
-  color: #ddd;
-}
-
-.dark-mode .card p {
-  color: #ccc;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #eee;
-  margin-top: 2rem;
-}
-
-.dark-mode footer {
-  background: #222;
-  color: #ccc;
+  color: white;
 }
