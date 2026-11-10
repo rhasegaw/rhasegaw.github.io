@@ -146,26 +146,32 @@
               <li>
                 <strong>Score possible connections</strong>A transformer used
                 33-dimensional point features and bidirectional cross-attention
-                between adjacent frames. It produced pairwise link scores and
-                scores for parent–daughter division configurations.
+                between adjacent frames. It produced pairwise link scores used
+                by the association and motion-relinking stages. A separate fork
+                scoring head existed in the model definition, but its
+                contribution to the archived inference path is unverified.
               </li>
               <li>
-                <strong>Select a consistent graph</strong>An integer linear
-                program selected links using appearance, disappearance, and
-                division costs. Constraints limited a cell to one parent and at
-                most two children.
+                <strong>Build an initial graph</strong>An integer linear program
+                selected initial links using appearance, disappearance, and
+                division costs under one-parent/two-child constraints. In the
+                archived configuration, flow-based motion relinking then
+                replaced those edges when it returned a valid edge set.
               </li>
               <li>
-                <strong>Check the difficult transitions</strong>Motion-based
-                relinking, candidate readmission, and gap filling addressed
-                broken connections. Additional center-evidence and geometric
-                checks restricted implausible divisions and gap links.
+                <strong>Recover and check difficult transitions</strong
+                >Candidate readmission and gap filling addressed broken
+                connections. Final divisions were recovered through geometric
+                and orphan-division rules, then checked by a ten-model
+                mitosis-classifier ensemble. Center-evidence checks, refinement,
+                and smoothing added further post-processing.
               </li>
             </ol>
             <p>
-              This separation mattered: a model could rank individual links,
-              while the optimization stage enforced relationships across the
-              graph. Neither stage alone settled every ambiguous case.
+              The order mattered: later stages could replace the graph produced
+              earlier. Describing the system as an ILP alone would miss how the
+              archived configuration actually produced its final connections and
+              divisions.
             </p>
           </section>
           <section class="study-section" id="decisions">
@@ -199,18 +205,19 @@
                 <tr>
                   <td>False divisions</td>
                   <td>
-                    A DeepCenter center-prior model checked for supporting image
-                    evidence. Parent–child distance, sister distance, and
-                    division-rate caps added geometric and frequency
-                    constraints.
+                    Post-link division recovery used parent–child distance,
+                    sister distance, and rate caps. A mitosis-classifier
+                    ensemble pruned division proposals, while DeepCenter
+                    provided additional cell-center evidence.
                   </td>
                 </tr>
                 <tr>
                   <td>Premature track endings</td>
                   <td>
-                    The disappearance cost in the optimization controlled the
-                    trade-off between ending a trajectory and preserving a
-                    candidate link.
+                    The disappearance cost affected the initial optimization.
+                    Later relinking could replace its edges, so changing that
+                    cost needed complete-pipeline evaluation rather than an
+                    assumption about the final graph.
                   </td>
                 </tr>
               </tbody>
@@ -233,12 +240,13 @@
               pipeline.
             </p>
             <p>
-              The experiment record also exposed a validation pitfall: some
-              movies used to assess an additional learned ranker overlapped that
-              ranker’s training data. Improvements on those movies could not
-              establish generalization. Other changes behaved differently across
-              embryo groups, and readmission and gap filling did not have the
-              same independent support as the better-tested components.
+              A predecessor configuration showed a positive paired result on 27
+              held-out movies from one embryo, but fresh-embryo comparisons did
+              not consistently retain that gain. No local evaluation established
+              a confidence-interval-separated gain for either archived variant
+              as a complete pipeline. An additional ranker experiment also
+              included training-overlap movies; that ranker is not part of
+              either archived notebook.
             </p>
             <div class="study-note">
               <p class="eyebrow">The boundary of the evidence</p>

@@ -1311,3 +1311,14 @@ summary::-webkit-details-marker {
     padding-block: 9px;
   }
 }
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 24px;
+  margin-top: 18px;
+}
+.project-links .text-link {
+  min-height: 44px;
+  font-size: 12px;
+}

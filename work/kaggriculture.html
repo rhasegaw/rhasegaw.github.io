@@ -238,10 +238,10 @@
                 different states caused large losses.
               </li>
               <li>
-                <strong>Replaying action histories.</strong> An action-history
-                or tree-replay approach did not transfer reliably to other
-                games. It could reproduce a path without solving the decision
-                problem that produced it.
+                <strong>Replaying complete action histories.</strong> A
+                full-game action-history or tree-replay approach did not
+                transfer reliably to other games. It could reproduce a path
+                without solving the decision problem that produced it.
               </li>
               <li>
                 <strong>Optimizing routes in isolation.</strong> Reducing
@@ -249,6 +249,13 @@
                 held-out game outcomes. That version was not submitted.
               </li>
             </ul>
+            <p>
+              The line selected in the development record paired an opening
+              replay matched to the shop draw with the closed-loop planner. The
+              published source snapshot omits that opening library and runs the
+              planner from the start; the exact configuration of the final
+              hosted submission is unverified.
+            </p>
             <div class="study-note">
               <p class="eyebrow">How I read the results</p>
               <p>

@@ -387,3 +387,20 @@
     break-inside: avoid;
   }
 }
+.study-resources {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+.study-resources p:not(.eyebrow) {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.study-resources .project-links {
+  margin: 0;
+}
