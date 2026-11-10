@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ed" />
+    <title>Kaggriculture: planning in a shared economy — Ryo Hasegawa</title>
+    <meta
+      name="description"
+      content="A farming strategy has to balance what it can produce, what it can afford, and what the market will still pay for. Other agents change all three."
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Kaggriculture: planning in a shared economy — Ryo Hasegawa"
+    />
+    <meta
+      property="og:description"
+      content="A farming strategy has to balance what it can produce, what it can afford, and what the market will still pay for. Other agents change all three."
+    />
+    <meta
+      property="og:image"
+      content="https://rhasegaw.github.io/img/social.png"
+    />
+    <meta
+      property="og:url"
+      content="https://rhasegaw.github.io/work/kaggriculture.html"
+    />
+    <link
+      rel="canonical"
+      href="https://rhasegaw.github.io/work/kaggriculture.html"
+    />
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/case-study.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/">Ryo Hasegawa<span>.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/#work">Work</a><a href="/#experience">Experience</a
+        ><a href="/#about">About</a
+        ><a class="nav-contact" href="/#contact">Let’s talk ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <div class="study-hero wrap">
+        <a class="study-back" href="/#work">← Back to selected work</a>
+        <div class="study-hero-grid">
+          <div>
+            <p class="eyebrow">Case study / Kaggle / 2026</p>
+            <h1>A farm. An agent.<br /><em>A shared economy.</em></h1>
+            <p class="study-standfirst">
+              A farming strategy has to balance what it can produce, what it can
+              afford, and what the market will still pay for. Other agents
+              change all three.
+            </p>
+          </div>
+          <figure class="study-image">
+            <img src="/img/kaggriculture.svg" width="600" height="360" alt="" />
+            <figcaption>Conceptual illustration</figcaption>
+          </figure>
+        </div>
+        <dl class="study-facts">
+          <div>
+            <dt>Competition</dt>
+            <dd>Kaggriculture</dd>
+          </div>
+          <div>
+            <dt>Final rank</dt>
+            <dd>76 / 10,148 teams</dd>
+          </div>
+          <div>
+            <dt>Result</dt>
+            <dd>Silver · Solo entry</dd>
+          </div>
+          <div>
+            <dt>Environment</dt>
+            <dd>2 players · 30 days</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="study-layout wrap">
+        <nav class="study-nav" aria-label="In this case study">
+          <p class="eyebrow">In this study</p>
+          <ol>
+            <li>
+              <a href="#problem"><span>01</span>The problem</a>
+            </li>
+            <li>
+              <a href="#approach"><span>02</span>The approach</a>
+            </li>
+            <li>
+              <a href="#decisions"><span>03</span>Economic decisions</a>
+            </li>
+            <li>
+              <a href="#evaluation"
+                ><span>04</span>Testing &amp; rejected ideas</a
+              >
+            </li>
+            <li>
+              <a href="#takeaway"><span>05</span>What I took away</a>
+            </li>
+          </ol>
+        </nav>
+        <article class="study-content">
+          <section class="study-section" id="problem">
+            <p class="eyebrow">01 / The problem</p>
+            <h2>Production was only<br /><em>half the problem.</em></h2>
+            <p>
+              Kaggriculture was a two-player farming simulation spanning
+              <strong>30 simulated days and 720 turns</strong>. Agents made
+              decisions about crops, animals, fertilizer, land, and sales, with
+              the objective of maximizing final bank coins.
+            </p>
+            <p>
+              The interesting part was the shared market. Product value depended
+              on inventory, so an attractive production strategy could become
+              less attractive as both players supplied the same goods. A plan
+              had to work against another decision-maker, not just against a
+              fixed environment.
+            </p>
+            <div class="study-note">
+              <p class="eyebrow">The central trade-off</p>
+              <p>
+                More output did not automatically mean more money. A useful
+                decision had to account for sale prices, feed and fertilizer
+                needs, travel, storage pressure, and the time left in the game.
+              </p>
+            </div>
+          </section>
+          <section class="study-section" id="approach">
+            <p class="eyebrow">02 / The approach</p>
+            <h2>Observe. Plan.<br /><em>Act. Reconsider.</em></h2>
+            <p>
+              I developed a closed-loop planner: it read the current
+              observation, maintained player state, built a daily plan, and
+              turned that plan into jobs for the available workers. The next
+              observation could change the priorities.
+            </p>
+            <ol class="method-flow">
+              <li>
+                <strong>Read the world</strong>Parse the observed farm, player
+                state, and market rather than assume yesterday’s conditions
+                still hold.
+              </li>
+              <li>
+                <strong>Set the daily direction</strong>Choose production and
+                spending priorities within limits on crops, animals, reserves,
+                and the remaining horizon.
+              </li>
+              <li>
+                <strong>Generate actionable jobs</strong>Create crop,
+                animal-care, and market tasks from that plan. Include the
+                supporting work needed to keep production running.
+              </li>
+              <li>
+                <strong>Assign by urgency and economic value</strong>Weigh
+                priorities alongside walking cost and whether a worker is
+                already on the relevant tile. Execute, observe the result, and
+                update.
+              </li>
+            </ol>
+            <p>
+              This made the agent a state-dependent decision system rather than
+              a fixed sequence of moves. The architecture separated the
+              longer-term production direction from the immediate question of
+              what each worker should do next.
+            </p>
+          </section>
+          <section class="study-section" id="decisions">
+            <p class="eyebrow">03 / Economic decisions</p>
+            <h2>Protect the inputs.<br /><em>Price the outputs.</em></h2>
+            <table class="study-table">
+              <thead>
+                <tr>
+                  <th scope="col">Decision</th>
+                  <th scope="col">Planner treatment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>What to sell</td>
+                  <td>
+                    Use inventory-dependent prices, product-specific selling
+                    floors, and a priority order for premium products. Overflow
+                    selling handled storage pressure as a separate concern.
+                  </td>
+                </tr>
+                <tr>
+                  <td>What to keep</td>
+                  <td>
+                    Reserve feed and fertilizer so an immediate sale did not
+                    leave the production chain without essential inputs.
+                  </td>
+                </tr>
+                <tr>
+                  <td>How far to expand</td>
+                  <td>
+                    Bound crop production and animal purchases. The retained
+                    strategy explored sheep and yarn production alongside feed
+                    logistics, with planting cutoffs as the game progressed.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Where to work next</td>
+                  <td>
+                    Include travel cost and bonuses for work on the current
+                    tile, while keeping the economic priority of the job in
+                    view.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              A particularly useful failure mode was market saturation.
+              Expanding livestock production could look strong against fixed
+              opponents, then lose its advantage when rival strategies expanded
+              supply too. The apparent gain belonged to a particular opponent
+              mix, not to production volume by itself.
+            </p>
+          </section>
+          <section class="study-section" id="evaluation">
+            <p class="eyebrow">04 / Testing &amp; rejected ideas</p>
+            <h2>The smaller metric<br /><em>wasn’t the objective.</em></h2>
+            <p>
+              I used local games to compare candidate strategies and inspect why
+              they earned or lost money. The tests had to cover varied game
+              states and opponents; a single successful trajectory was not a
+              transferable policy.
+            </p>
+            <h3>Three ideas that did not earn their place</h3>
+            <ul>
+              <li>
+                <strong>Replaying market orders.</strong> A sequence of orders
+                was tied to the state in which it was created. Reusing it in
+                different states caused large losses.
+              </li>
+              <li>
+                <strong>Replaying action histories.</strong> An action-history
+                or tree-replay approach did not transfer reliably to other
+                games. It could reproduce a path without solving the decision
+                problem that produced it.
+              </li>
+              <li>
+                <strong>Optimizing routes in isolation.</strong> Reducing
+                walking improved a local efficiency measure, but did not improve
+                held-out game outcomes. That version was not submitted.
+              </li>
+            </ul>
+            <div class="study-note">
+              <p class="eyebrow">How I read the results</p>
+              <p>
+                Travel reduction, production volume, and replay performance were
+                diagnostic signals. They were not substitutes for the outcome of
+                a complete game against competing strategies.
+              </p>
+            </div>
+            <p>
+              The official final result was
+              <strong>76th of 10,148 teams</strong> and a
+              <strong>silver medal</strong>. The planner mechanisms above
+              describe project development; the final ranking does not establish
+              the individual contribution of any one rule.
+            </p>
+          </section>
+          <section class="study-section" id="takeaway">
+            <p class="eyebrow">05 / What I took away</p>
+            <h2>A strategy changes<br /><em>its own environment.</em></h2>
+            <blockquote class="study-quote">
+              <p>
+                The question was not simply “What can I produce?” It was “What
+                will still be worth producing when the other player acts?”
+              </p>
+            </blockquote>
+            <p>
+              This competition connected programming to economics in a concrete
+              way. Inventory, production, labor, and opponent behavior formed
+              one system. A rule that helped one part could hurt the final
+              objective.
+            </p>
+            <p>
+              It also changed how I interpret backtests. I want to know which
+              conditions made a strategy look good, whether those conditions
+              survive different opponents, and whether a measured improvement
+              reaches the actual outcome.
+            </p>
+            <h3>Sharing what I learned</h3>
+            <p>
+              I wrote a beginner guide to Kaggriculture scoring and submission
+              strategy. It received <strong>95 community votes</strong> as of
+              2026-11-09. Its title refers to an earlier public-leaderboard
+              position; my final result is the silver-medal finish reported
+              above.
+            </p>
+            <a
+              class="text-link"
+              href="https://www.kaggle.com/competitions/kaggriculture/discussion/736219"
+              >Read the community guide ↗</a
+            >
+            <div class="study-sources">
+              <h3>Competition &amp; result</h3>
+              <ul>
+                <li>
+                  <a
+                    href="https://www.kaggle.com/competitions/kaggriculture/overview"
+                    >Official competition overview</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://www.kaggle.com/competitions/kaggriculture/leaderboard"
+                    >Final leaderboard</a
+                  >
+                </li>
+                <li>
+                  <a href="https://www.kaggle.com/ryohasegawa926"
+                    >Kaggle profile</a
+                  >
+                </li>
+              </ul>
+              <p>
+                Result checked 2026-11-09. Technical description checked against
+                the retained planner and evaluation records.
+              </p>
+            </div>
+          </section>
+        </article>
+      </div>
+      <section class="study-next">
+        <div class="wrap">
+          <div>
+            <p class="eyebrow">Next case study</p>
+            <h2>Following cells through time.</h2>
+          </div>
+          <a class="button" href="/work/biohub.html">Read the study ↗</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <span>© 2026 Ryo Hasegawa</span
+      ><a href="/credits.html">Colophon &amp; credits</a
+      ><a href="/#work">All selected work ↑</a>
+    </footer>
+  </body>
+</html>

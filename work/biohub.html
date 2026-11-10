@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f5f3ed" />
+    <title>Biohub: following cells through time — Ryo Hasegawa</title>
+    <meta
+      name="description"
+      content="A cell detector sees one moment. A tracking system has to explain what happened between moments—including movement, missed detections, and cell division."
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Biohub: following cells through time — Ryo Hasegawa"
+    />
+    <meta
+      property="og:description"
+      content="A cell detector sees one moment. A tracking system has to explain what happened between moments—including movement, missed detections, and cell division."
+    />
+    <meta
+      property="og:image"
+      content="https://rhasegaw.github.io/img/social.png"
+    />
+    <meta
+      property="og:url"
+      content="https://rhasegaw.github.io/work/biohub.html"
+    />
+    <link rel="canonical" href="https://rhasegaw.github.io/work/biohub.html" />
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/case-study.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/">Ryo Hasegawa<span>.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/#work">Work</a><a href="/#experience">Experience</a
+        ><a href="/#about">About</a
+        ><a class="nav-contact" href="/#contact">Let’s talk ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <div class="study-hero wrap">
+        <a class="study-back" href="/#work">← Back to selected work</a>
+        <div class="study-hero-grid">
+          <div>
+            <p class="eyebrow">Case study / Kaggle / 2026</p>
+            <h1>Following cells.<br /><em>Preserving identity.</em></h1>
+            <p class="study-standfirst">
+              A cell detector sees one moment. A tracking system has to explain
+              what happened between moments—including movement, missed
+              detections, and cell division.
+            </p>
+          </div>
+          <figure class="study-image">
+            <img src="/img/cell-tracking.svg" width="600" height="360" alt="" />
+            <figcaption>Conceptual illustration</figcaption>
+          </figure>
+        </div>
+        <dl class="study-facts">
+          <div>
+            <dt>Competition</dt>
+            <dd>Biohub · Cell Tracking</dd>
+          </div>
+          <div>
+            <dt>Final rank</dt>
+            <dd>51 / 3,947 teams</dd>
+          </div>
+          <div>
+            <dt>Result</dt>
+            <dd>Silver · Solo entry</dd>
+          </div>
+          <div>
+            <dt>Final private score</dt>
+            <dd>0.93486</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="study-layout wrap">
+        <nav class="study-nav" aria-label="In this case study">
+          <p class="eyebrow">In this study</p>
+          <ol>
+            <li>
+              <a href="#problem"><span>01</span>The problem</a>
+            </li>
+            <li>
+              <a href="#approach"><span>02</span>The approach</a>
+            </li>
+            <li>
+              <a href="#decisions"><span>03</span>Technical decisions</a>
+            </li>
+            <li>
+              <a href="#evaluation"><span>04</span>Evaluation</a>
+            </li>
+            <li>
+              <a href="#takeaway"><span>05</span>What I took away</a>
+            </li>
+          </ol>
+        </nav>
+        <article class="study-content">
+          <section class="study-section" id="problem">
+            <p class="eyebrow">01 / The problem</p>
+            <h2>From 3D images to a lineage.</h2>
+            <p>
+              Biohub’s Cell Tracking During Development challenge followed cell
+              nuclei through time in three-dimensional microscopy of zebrafish
+              embryos. The output was a graph: detected cells as nodes, temporal
+              connections as edges, and branches where a parent divided into two
+              daughter cells.
+            </p>
+            <p>
+              A plausible-looking detection in each frame was only part of the
+              task. A missed cell could break a trajectory. Two nearby cells
+              could exchange identities. A false division could create a lineage
+              that never happened.
+            </p>
+            <div class="study-note">
+              <p class="eyebrow">What the competition measured</p>
+              <p>
+                The score combined
+                <strong>adjusted edge Jaccard + 0.1 × division Jaccard</strong>.
+                Predicted and reference nodes were matched within a
+                <strong>7 μm tolerance</strong>. That made the quality of
+                connections—and the treatment of divisions—central to the
+                result.
+              </p>
+            </div>
+          </section>
+          <section class="study-section" id="approach">
+            <p class="eyebrow">02 / The approach</p>
+            <h2>Detect locally.<br /><em>Connect globally.</em></h2>
+            <p>
+              I built on pretrained detection and association components, then
+              worked on how their outputs became coherent tracks. The pipeline
+              combined learned scores with explicit constraints and
+              post-processing checks.
+            </p>
+            <ol class="method-flow">
+              <li>
+                <strong>Find cell-center candidates</strong>A TemporalUNet3D
+                detector proposed nuclei from the 3D image sequence. Those
+                detections formed the candidates the tracker could connect.
+              </li>
+              <li>
+                <strong>Score possible connections</strong>A transformer used
+                33-dimensional point features and bidirectional cross-attention
+                between adjacent frames. It produced pairwise link scores and
+                scores for parent–daughter division configurations.
+              </li>
+              <li>
+                <strong>Select a consistent graph</strong>An integer linear
+                program selected links using appearance, disappearance, and
+                division costs. Constraints limited a cell to one parent and at
+                most two children.
+              </li>
+              <li>
+                <strong>Check the difficult transitions</strong>Motion-based
+                relinking, candidate readmission, and gap filling addressed
+                broken connections. Additional center-evidence and geometric
+                checks restricted implausible divisions and gap links.
+              </li>
+            </ol>
+            <p>
+              This separation mattered: a model could rank individual links,
+              while the optimization stage enforced relationships across the
+              graph. Neither stage alone settled every ambiguous case.
+            </p>
+          </section>
+          <section class="study-section" id="decisions">
+            <p class="eyebrow">03 / Technical decisions</p>
+            <h2>The hard cases<br /><em>were between frames.</em></h2>
+            <table class="study-table">
+              <thead>
+                <tr>
+                  <th scope="col">Problem</th>
+                  <th scope="col">How I addressed it</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Movement and broken links</td>
+                  <td>
+                    Motion-based relinking reconsidered associations when the
+                    original connection was inconsistent with the surrounding
+                    trajectory.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Missing detections</td>
+                  <td>
+                    Readmission and gap-filling logic gave the tracker a way to
+                    recover candidates and reconnect interrupted tracks. These
+                    extensions needed separate validation from the main
+                    detector.
+                  </td>
+                </tr>
+                <tr>
+                  <td>False divisions</td>
+                  <td>
+                    A DeepCenter center-prior model checked for supporting image
+                    evidence. Parent–child distance, sister distance, and
+                    division-rate caps added geometric and frequency
+                    constraints.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Premature track endings</td>
+                  <td>
+                    The disappearance cost in the optimization controlled the
+                    trade-off between ending a trajectory and preserving a
+                    candidate link.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              These were coupled decisions. Making it easier to keep a track
+              alive could also keep a wrong association alive. Adding a missing
+              point could repair one lineage while introducing a false branch
+              elsewhere.
+            </p>
+          </section>
+          <section class="study-section" id="evaluation">
+            <p class="eyebrow">04 / Evaluation</p>
+            <h2>A local improvement<br /><em>needs a second test.</em></h2>
+            <p>
+              I inspected edge and division errors separately and compared
+              candidate outputs at the movie and embryo level. Replays of
+              existing detections were useful for screening changes to the
+              association stage, but did not replace running the complete
+              pipeline.
+            </p>
+            <p>
+              The experiment record also exposed a validation pitfall: some
+              movies used to assess an additional learned ranker overlapped that
+              ranker’s training data. Improvements on those movies could not
+              establish generalization. Other changes behaved differently across
+              embryo groups, and readmission and gap filling did not have the
+              same independent support as the better-tested components.
+            </p>
+            <div class="study-note">
+              <p class="eyebrow">The boundary of the evidence</p>
+              <p>
+                The technical discussion describes the pipeline and changes
+                developed during the project. It does not assign the final score
+                to an individual component or treat every local gain as an
+                improvement on unseen data.
+              </p>
+            </div>
+            <p>
+              The verified competition outcome was
+              <strong>51st of 3,947 teams</strong>, with a
+              <strong>silver medal</strong> and a final private score of
+              <strong>0.93486</strong>.
+            </p>
+          </section>
+          <section class="study-section" id="takeaway">
+            <p class="eyebrow">05 / What I took away</p>
+            <h2>The graph is<br /><em>the prediction.</em></h2>
+            <blockquote class="study-quote">
+              <p>
+                Getting the cells right is not enough. Their connections have to
+                make sense together.
+              </p>
+            </blockquote>
+            <p>
+              This project made me think about machine learning as a system of
+              interacting decisions. Detection, association, optimization, and
+              post-processing each had a job—and each could undermine the
+              others.
+            </p>
+            <p>
+              My strongest lesson was about evaluation: check the provenance of
+              every trained component, separate tuning from confirmation, and
+              test complete sequences. A validation split is only independent if
+              it is independent of the entire pipeline.
+            </p>
+            <div class="study-sources">
+              <h3>Competition &amp; result</h3>
+              <ul>
+                <li>
+                  <a
+                    href="https://www.kaggle.com/competitions/biohub-cell-tracking-during-development"
+                    >Official competition</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://www.kaggle.com/competitions/biohub-cell-tracking-during-development/leaderboard"
+                    >Final leaderboard</a
+                  >
+                </li>
+                <li>
+                  <a href="https://www.kaggle.com/ryohasegawa926"
+                    >Kaggle profile</a
+                  >
+                </li>
+              </ul>
+              <p>
+                Result checked 2026-11-09. Technical description checked against
+                project notebooks and evaluation records.
+              </p>
+            </div>
+          </section>
+        </article>
+      </div>
+      <section class="study-next">
+        <div class="wrap">
+          <div>
+            <p class="eyebrow">Next case study</p>
+            <h2>An agent in a shared economy.</h2>
+          </div>
+          <a class="button" href="/work/kaggriculture.html"
+            >Read the study ↗</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <span>© 2026 Ryo Hasegawa</span
+      ><a href="/credits.html">Colophon &amp; credits</a
+      ><a href="/#work">All selected work ↑</a>
+    </footer>
+  </body>
+</html>

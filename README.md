@@ -16,6 +16,8 @@ python -m http.server 8080
 ## Structure
 
 - `index.html`: portfolio content
+- `work/`: detailed Kaggle case studies
+- `case-study.css`: case-study layouts
 - `style.css`: responsive design and typography
 - `script.js`: project filters, disclosure links, navigation state
 - `img/`: original illustrations, résumé, and social preview
