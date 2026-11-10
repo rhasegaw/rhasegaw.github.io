@@ -1,58 +1,57 @@
-// Loading screen
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        const loader = document.getElementById('loader');
-        loader.style.opacity = '0';
-        setTimeout(function() {
-            loader.style.display = 'none';
-        }, 300);
-    }, 1500);
-});
-
-// Dark mode toggle
-const themeToggle = document.getElementById('theme-toggle');
-const html = document.documentElement;
-
-// Check for saved theme preference
-const currentTheme = localStorage.getItem('theme') || 'light';
-html.setAttribute('data-theme', currentTheme);
-themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-
-themeToggle.addEventListener('click', function() {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-});
-
-// Smooth scroll for cards on touch devices
-const containers = document.querySelectorAll('.cards-container');
-containers.forEach(container => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    container.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX - container.offsetLeft;
-        scrollLeft = container.scrollLeft;
+const filters = document.querySelectorAll("[data-filter]");
+const projects = document.querySelectorAll(".archive-row");
+const status = document.getElementById("filter-status");
+filters.forEach((button) =>
+  button.addEventListener("click", () => {
+    const category = button.dataset.filter;
+    let visible = 0;
+    filters.forEach((filter) => {
+      const active = filter === button;
+      filter.classList.toggle("is-active", active);
+      filter.setAttribute("aria-pressed", String(active));
     });
-
-    container.addEventListener('mouseleave', () => {
-        isDown = false;
+    projects.forEach((project) => {
+      const hidden =
+        category !== "all" && project.dataset.category !== category;
+      project.closest("li").hidden = hidden;
+      if (!hidden) visible++;
     });
-
-    container.addEventListener('mouseup', () => {
-        isDown = false;
-    });
-
-    container.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 2;
-        container.scrollLeft = scrollLeft - walk;
-    });
-});
+    status.textContent =
+      category === "all"
+        ? `Showing all ${visible} projects.`
+        : `Showing ${visible} ${category} projects.`;
+  }),
+);
+function openLinkedDetail(hash) {
+  if (!hash) return;
+  const target = document.getElementById(hash.slice(1));
+  if (target instanceof HTMLDetailsElement) target.open = true;
+}
+document
+  .querySelectorAll('a[href^="#"]')
+  .forEach((link) =>
+    link.addEventListener("click", () =>
+      openLinkedDetail(link.getAttribute("href")),
+    ),
+  );
+window.addEventListener("hashchange", () => openLinkedDetail(location.hash));
+openLinkedDetail(location.hash);
+if ("IntersectionObserver" in window) {
+  const nav = document.querySelectorAll(".main-nav a");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        nav.forEach((link) => {
+          if (link.hash === `#${entry.target.id}`)
+            link.setAttribute("aria-current", "true");
+          else link.removeAttribute("aria-current");
+        });
+      });
+    },
+    { rootMargin: "-10% 0px -60% 0px" },
+  );
+  document
+    .querySelectorAll(".hero, #work, #experience, #about, #contact")
+    .forEach((section) => observer.observe(section));
+}
