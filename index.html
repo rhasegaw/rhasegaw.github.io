@@ -33,7 +33,7 @@
         >Ryo Hasegawa<span>.</span></a
       >
       <nav class="main-nav" aria-label="Main navigation">
-        <a href="#work">Work</a><a href="#experience">Experience</a
+        <a href="#work">Work</a><a href="#methods">Methods</a><a href="#experience">Experience</a
         ><a href="#about">About</a
         ><a class="nav-contact" href="#contact"
           >Let’s talk
@@ -64,8 +64,9 @@
           <div class="hero-copy">
             <h1 id="hero-title">Data,<br /><em>put to work.</em></h1>
             <p class="hero-intro">
-              I’m Ryo. I work in underwriting support, compete on Kaggle, and
-              turn complex information into something people can use.
+              I’m Ryo. I work in underwriting support and research applied
+              machine learning, from numerical optimization and algorithms
+              to controlled experiments and practical decisions.
             </p>
             <div class="hero-actions">
               <a class="button" href="#work"
@@ -240,12 +241,13 @@
           </a>
           <div class="research-copy prose">
             <p class="eyebrow">Independent research · Gemma coding agents</p>
-            <h3><a href="work/gemma.html">Gemma agents under<br />resource constraints.</a></h3>
+            <h3><a href="work/gemma.html">Agreement is<br />not behaviour.</a></h3>
             <p>
               Research on how coding agents allocate inference time and how
               targeted LoRA edits change their submission decisions. I combine
               runtime modeling, closed-form matrix optimization, and controlled
-              software-repair experiments.
+              software-repair experiments. A supplementary exact-matching
+              audit connects Python software design with algorithm analysis.
             </p>
             <p class="research-title">Research report &amp; continuing work · November 2026</p>
             <div class="project-links">
@@ -484,10 +486,10 @@
             </p>
             <h3>Understanding grief.<br />Informing support.</h3>
             <p>
-              With a Purdue team, I compared classification models using TAPS
-              survey responses to explore grief stages among bereaved military
-              families. We documented model development and experiments, then
-              co-presented our work at the Fall Undergraduate Research Expo.
+              With a Purdue team, I wrote Python and R code to compare
+              classification approaches on TAPS survey responses from bereaved
+              military families. I helped prepare the research poster and
+              presented our approach at the Fall Undergraduate Research Expo.
             </p>
             <p class="research-title">
               “AI-Powered Classification of Military Grief Stages for Survivor
@@ -516,13 +518,76 @@
         </article>
       </section>
       <section
+        id="methods"
+        class="methods-section wrap section-space"
+        aria-labelledby="methods-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / Methods in practice</p>
+            <h2 id="methods-title">The reasoning<br /><em>behind the work.</em></h2>
+          </div>
+          <p class="section-intro">Specific implementations, mathematical arguments,
+            and tests from the projects above.</p>
+        </div>
+        <div class="method-evidence-list">
+          <article class="method-evidence">
+            <span class="method-number" aria-hidden="true">01</span>
+            <h3>Numerical optimization<br />&amp; linear algebra</h3>
+            <div>
+              <p>I formulated a regularized quadratic refit for a LoRA factor,
+                derived its matrix gradient, and used a positive-definite Hessian
+                to establish a unique minimum. The implementation caches an
+                eigenbasis and reduces repeated solves to systems of at most 60 × 60.</p>
+              <a class="text-link" href="work/gemma.html#derivation">Derivation &amp; numerical checks ↗</a>
+            </div>
+          </article>
+          <article class="method-evidence">
+            <span class="method-number" aria-hidden="true">02</span>
+            <h3>Algorithms<br />&amp; software design</h3>
+            <div>
+              <p>I implemented an exact token-span audit with suffix automata,
+                suffix links, and hash-based transitions. Separate Python classes
+                encapsulate indexing, excluded text, and comparisons. An exhaustive
+                oracle and a dynamic-programming check test the matching rule.</p>
+              <a class="text-link" href="work/gemma.html#algorithms">Algorithm, example &amp; complexity ↗</a>
+              <a class="text-link secondary-method-link" href="work/kaggriculture.html#approach">State-based planning in Python ↗</a>
+            </div>
+          </article>
+          <article class="method-evidence">
+            <span class="method-number" aria-hidden="true">03</span>
+            <h3>Experimental design<br />&amp; statistical inference</h3>
+            <div>
+              <p>I fixed the tasks, hypothesis, and execution order before a
+                36-issue replication. Paired comparisons separate a model edit
+                from a submission guard. An exact test found a change in submission
+                behavior; separate grading did not establish better repairs.</p>
+              <a class="text-link" href="work/gemma.html#evaluation">Controls, paired analysis &amp; results ↗</a>
+              <a class="text-link secondary-method-link" href="work/biohub.html#evaluation">Validation on held-out microscopy data ↗</a>
+            </div>
+          </article>
+          <article class="method-evidence">
+            <span class="method-number" aria-hidden="true">04</span>
+            <h3>Statistical computing<br />&amp; communication</h3>
+            <div>
+              <p>In a Purdue team project, I contributed Python and R code for
+                survey classification and prepared the research poster. In client
+                work, I translated large Excel datasets into concise analytical
+                reports that clients could interpret and use.</p>
+              <a class="text-link" href="https://www.purdue.edu/undergrad-research/conferences/fall/archive/documents/FallExpo_Abstracts2024.pdf#page=260">Research presentation record ↗</a>
+              <a class="text-link secondary-method-link" href="#experience">Client analysis &amp; reporting ↗</a>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section
         id="experience"
         class="experience-section section-space"
         aria-labelledby="experience-title"
       >
         <div class="wrap experience-layout">
           <div class="section-rail">
-            <p class="eyebrow">02 / Experience</p>
+            <p class="eyebrow">03 / Experience</p>
             <h2 id="experience-title">Where the<br /><em>work happens.</em></h2>
             <p>Technical thinking, grounded in day-to-day business needs.</p>
             <a
@@ -616,7 +681,7 @@
       >
         <div class="section-heading">
           <div>
-            <p class="eyebrow">03 / Project archive</p>
+            <p class="eyebrow">04 / Project archive</p>
             <h2 id="archive-title">
               Analysis, systems,<br /><em>and applied research.</em>
             </h2>
@@ -870,7 +935,7 @@
       >
         <div class="about-layout">
           <div>
-            <p class="eyebrow">04 / A little context</p>
+            <p class="eyebrow">05 / A little context</p>
             <h2 id="about-title">
               An analytical mind.<br /><em>A human perspective.</em>
             </h2>
@@ -940,7 +1005,7 @@
       >
         <div class="wrap">
           <div class="contact-top">
-            <p class="eyebrow">05 / Keep in touch</p>
+            <p class="eyebrow">06 / Keep in touch</p>
             <span class="contact-mark" aria-hidden="true">↗</span>
           </div>
           <h2 id="contact-title">

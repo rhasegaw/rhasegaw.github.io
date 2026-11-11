@@ -46,7 +46,7 @@
           <div><dt>Model</dt><dd>Gemma-4-31B</dd></div>
           <div><dt>Editing hardware</dt><dd>One 8 GB GPU</dd></div>
           <div><dt>Prospective replication</dt><dd>36 fresh issues · 5 repositories</dd></div>
-          <div><dt>Execution cells</dt><dd>152 completed</dd></div>
+          <div><dt>Runs completed</dt><dd>152</dd></div>
         </dl>
         <div class="study-resources">
           <div>
@@ -66,7 +66,8 @@
             <li><a href="#budgets"><span>02</span>Time budgets</a></li>
             <li><a href="#editing"><span>03</span>Low-memory editing</a></li>
             <li><a href="#evaluation"><span>04</span>Replication &amp; results</a></li>
-            <li><a href="#current-work"><span>05</span>Status &amp; next questions</a></li>
+            <li><a href="#algorithms"><span>05</span>Algorithm &amp; software design</a></li>
+            <li><a href="#current-work"><span>06</span>Status &amp; next questions</a></li>
           </ol>
         </nav>
         <article class="study-content">
@@ -155,6 +156,92 @@
               1 of 38 to 14 of 38 serving-probe cases. Preserving token choices
               did not preserve the agent’s use of actions.
             </p>
+            <h3 id="derivation">From an objective to an implementation</h3>
+            <p>
+              Let <var>A</var> be the original input factor and <var>X</var> its
+              replacement. The positive-semidefinite matrices <var>C</var><sub>d</sub>
+              and <var>C</var><sub>g</sub> summarize inputs at decision and ordinary
+              positions. For λ ≥ 0 and ε &gt; 0, I minimized:
+            </p>
+            <div class="equation" role="group" aria-label="Regularized quadratic objective">
+              <div>ℒ(X) = tr((X − A)C<sub>d</sub>(X − A)<sup>T</sup>)</div>
+              <div class="equation-continuation">+ λ tr(XC<sub>g</sub>X<sup>T</sup>) + ε ‖X‖<sub>F</sub><sup>2</sup>.</div>
+            </div>
+            <p>
+              The first term retains the existing edit at decision positions;
+              the second penalizes adapter activity at ordinary positions.
+              The ridge term makes the stationary system invertible even if
+              the data moments are singular. Writing
+              <var>M</var> = <var>C</var><sub>d</sub> + λ<var>C</var><sub>g</sub> + ε<var>I</var>:
+            </p>
+            <div class="equation" role="group" aria-label="Gradient and optimal solution">
+              <div>∇ℒ(X) = 2(XM − AC<sub>d</sub>)</div>
+              <div>X* = AC<sub>d</sub>M<sup>−1</sup>.</div>
+            </div>
+            <p>
+              A zero gradient alone is insufficient. Each row has Hessian
+              2<var>M</var>, and <var>v</var><sup>T</sup><var>Mv</var> ≥ ε‖<var>v</var>‖<sup>2</sup>
+              for every nonzero <var>v</var>, establishing a unique global minimum.
+              The exact perturbation identity
+              ℒ(<var>X</var>* + <var>H</var>) − ℒ(<var>X</var>*) = tr(<var>HMH</var><sup>T</sup>)
+              describes curvature of this fitting loss. It does not establish
+              preservation of the model’s actions.
+            </p>
+            <p>
+              I implemented the refit as a Python <code>Refitter</code> object
+              that owns a cached eigensystem. With at most 60 decision rows,
+              the Woodbury identity reduces the parameter-dependent solve to
+              at most 60 × 60, even when the input dimension is 21,504.
+              Dense moments and eigenvectors still require quadratic storage;
+              the final basis transformation also remains quadratic in input dimension.
+            </p>
+            <details class="method-detail">
+              <summary>Inspect the refit calculation</summary>
+              <p>This excerpt from <code>Refitter.__call__</code> uses the
+                eigenvalues and decision projection cached during initialization.
+                Here <code>self.w</code> contains the eigenvalues of
+                <var>C</var><sub>g</sub>, and the positive ridge parameter is
+                ε = <code>c * self.w.mean()</code>.</p>
+              <pre><code>g = lam * self.w + c * float(self.w.mean())
+UtGinv_V = self.UtV / g
+S = UtGinv_V @ self.UtV.T
+AU = A.astype(np.float64) @ self.U
+core = AU @ np.linalg.solve(np.eye(len(S)) + S, UtGinv_V)
+return (core @ self.V.T.astype(np.float64)).astype(np.float32)</code></pre>
+              <p>The implementation solves the reduced system instead of
+                explicitly forming the full inverse shown in the derivation.</p>
+            </details>
+            <h3>Checking the derivation</h3>
+            <p>
+              Thirteen existing synthetic checks cover the finite-difference
+              gradient, stationary solution, exact Taylor identity, penalty
+              sensitivity, Woodbury/direct-solve agreement, and related identities.
+              The measured Woodbury/direct-solve discrepancy was
+              3.51 × 10<sup>−16</sup>; a separate mixed-precision implementation check
+              had discrepancy 6.21 × 10<sup>−8</sup>, below its 2 × 10<sup>−6</sup> tolerance.
+              These checks validate the algebra and its numerical implementation;
+              the repair experiments test the resulting agent.
+            </p>
+            <details class="method-detail">
+              <summary>Further analysis: sensitivity and convergence</summary>
+              <p>Holding the data moments and ε fixed, differentiating the
+                stationary equation gives d<var>X</var>*/dλ =
+                −<var>X</var>*<var>C</var><sub>g</sub><var>M</var><sup>−1</sup>.
+                This measures local sensitivity of the refitted factor to the
+                preservation penalty.</p>
+              <p>The supplementary analysis also represents the inverse as
+                an improper integral and a geometric series:</p>
+              <div class="equation">
+                <div>M<sup>−1</sup> = ∫<sub>0</sub><sup>∞</sup> exp(−tM) dt</div>
+                <div>M<sup>−1</sup> = α ∑<sub>k=0</sub><sup>∞</sup> (I − αM)<sup>k</sup>.</div>
+              </div>
+              <p>The series requires 0 &lt; α &lt; 2/μ<sub>max</sub>, where
+                μ<sub>max</sub> is the largest eigenvalue of <var>M</var>.
+                With q = max<sub>j</sub>|1 − αμ<sub>j</sub>| &lt; 1, truncation
+                after term <var>K</var> has spectral-norm error at most
+                αq<sup>K+1</sup>/(1 − q). These are analyses of the solution;
+                the reported refits used the eigensystem and reduced solve above.</p>
+            </details>
           </section>
           <section class="study-section" id="evaluation">
             <p class="eyebrow">04 / Completed prospective replication</p>
@@ -187,9 +274,17 @@
               Without the guard, the pre-specified submission signature—an
               empty first submission or at least three generated submission
               calls—occurred in 13 of 36 refit runs and none of the paired base
-              runs. The exact paired test gave <em>p</em> = 0.000244.
+              runs. A two-sided exact McNemar test on the discordant pairs
+              gave <em>p</em> = 0.000244.
               The base model nevertheless reached its time limit in 33 of 36
               runs; the absence of that signature does not imply good termination.
+            </p>
+            <p>
+              Pairing matters: each base run and refit run faced the same issue.
+              Among the 13 discordant pairs, every event occurred in the refit
+              condition. Under the paired null, the two-sided probability is
+              2 × (1/2)<sup>13</sup> = 0.000244. This tests the submission signature;
+              it does not turn that signature into a measure of repair quality.
             </p>
             <p>
               Repair grading used the official Evaluator on Kaggle, with
@@ -209,14 +304,79 @@
               </p>
             </div>
           </section>
+          <section class="study-section" id="algorithms">
+            <p class="eyebrow">05 / Supplementary algorithm study</p>
+            <h2>Make the matching rule<br /><em>exact and testable.</em></h2>
+            <p>
+              A separate audit asks whether a generated patch contains a long
+              token span shared with a reference patch but absent, as a whole,
+              from each supplied context text. The earlier matching-block
+              heuristic could miss valid spans after selecting a longer,
+              excluded match. I implemented an exact matcher using the
+              established suffix-automaton data structure.
+            </p>
+            <h3>The rule and why it works</h3>
+            <p>
+              At each ending position <var>i</var> in the generated tokens, let
+              <var>L</var><sub>g</sub>[<var>i</var>] be the longest suffix found in
+              the reference, and <var>L</var><sub>b</sub>[<var>i</var>] the longest
+              suffix found in any excluded text. Because occurrences include
+              every shorter suffix, the longest valid span at that position is
+              <var>L</var><sub>g</sub>[<var>i</var>] exactly when
+              <var>L</var><sub>g</sub>[<var>i</var>] &gt;
+              <var>L</var><sub>b</sub>[<var>i</var>]. Otherwise, none is valid there.
+              Taking the maximum over positions gives the exact answer.
+            </p>
+            <div class="algorithm-example">
+              <p class="eyebrow">An existing validation case</p>
+              <pre><code>Generated: n1 n2 n3 b1 b2 b3 b4
+Reference: b1 b2 b3 b4 n1 n2 n3
+Excluded:  b1 b2 b3 b4
+
+Exact eligible span: n1 n2 n3
+Length: 3; earlier heuristic: 0</code></pre>
+              <p>The four-token match is excluded, but the three-token match
+                remains eligible. The exact matcher examines both rather than
+                relying on the first alignment.</p>
+            </div>
+            <h3>Data structures and object boundaries</h3>
+            <p>
+              Each automaton stores transitions in dictionaries and state
+              lengths and suffix links in lists. The invariant
+              len(link(<var>v</var>)) &lt; <var>l</var> ≤ len(<var>v</var>) ties the
+              current nonzero match length to its state. Separate classes encapsulate
+              the automaton, excluded-text corpus, comparison rule, and cache;
+              the auditor composes these objects through matching-profile interfaces.
+            </p>
+            <p>
+              For a fixed number of excluded texts, the core matcher has expected
+              linear time and space in input size under average-case hash-table
+              operations. The complete audit additionally runs legacy and
+              dynamic-programming cross-checks, so its total runtime is not
+              claimed to be linear.
+            </p>
+            <h3>Independent checks and recorded results</h3>
+            <p>
+              Synthetic validation compares the automaton with exhaustive
+              substring enumeration and a separate dynamic-programming recurrence.
+              The completed audit of 81 earlier patches also cross-checks each
+              result against that recurrence. Ten reference-match lengths and
+              three control-span lengths increased. The 40-token flag count
+              stayed at 3/81 for reference patches and zero for controls.
+            </p>
+            <p>
+              A flag is a signal for investigation, not proof of copying.
+              This later audit supplements the earlier study; it does not
+              redefine the endpoints of the 36-issue replication.
+            </p>
+          </section>
           <section class="study-section" id="current-work">
-            <p class="eyebrow">05 / Updated November 11, 2026</p>
+            <p class="eyebrow">06 / Updated November 11, 2026</p>
             <h2>Research status<br /><em>and next questions.</em></h2>
             <p>
-              The report has been submitted, and the 152-run replication and
-              its repair grading are complete. DOI creation has been requested.
               The report was submitted to the Gemma 4 Developer Agent Paper
-              competition on November 11, 2026.
+              competition on November 11, 2026. The 152-run replication and
+              repair grading are complete. Public access and a DOI are pending.
             </p>
             <p>
               The continuing research direction is to understand which
@@ -233,10 +393,10 @@
                 while preserving repair quality.</li>
             </ul>
             <p>
-              These are open questions, not completed findings. My contribution
-              so far spans mathematical derivation, low-memory implementation,
-              experimental controls, paired statistical analysis, and reporting
-              both successful and unsuccessful interventions.
+              The submitted materials include the derivation, editing code,
+              task definitions, traces, grading logs, and analysis notebook.
+              The public report and supporting resources will be linked here
+              when available. The follow-up questions above remain open.
             </p>
             <div class="study-sources">
               <h3>Research record</h3>

@@ -1328,6 +1328,48 @@ summary::-webkit-details-marker {
   border-top: 0;
   border-bottom: 1px solid var(--line);
 }
+.methods-section {
+  border-top: 1px solid var(--line);
+}
+.method-evidence {
+  display: grid;
+  grid-template-columns: 32px minmax(180px, 0.8fr) minmax(0, 1.5fr);
+  gap: 30px;
+  padding-block: 34px;
+  border-top: 1px solid var(--line);
+}
+.method-number {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 11px;
+  padding-top: 6px;
+}
+.method-evidence h3 {
+  font-size: 23px;
+  line-height: 1.3;
+  margin: 0;
+}
+.method-evidence p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.method-evidence .text-link {
+  margin: 0 20px 8px 0;
+}
+.method-evidence .secondary-method-link {
+  font-size: 12px;
+}
+@media (max-width: 760px) {
+  .main-nav a[href="#experience"] { display: none; }
+  .method-evidence {
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 14px;
+    padding-block: 26px;
+  }
+  .method-evidence > div { grid-column: 2; }
+  .method-evidence h3 { font-size: 23px; }
+}
 .agent-research-art {
   padding: 0;
   justify-content: center;

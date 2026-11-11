@@ -214,6 +214,53 @@
   font-size: 12px;
   padding-bottom: 12px;
 }
+.study-content [id] {
+  scroll-margin-top: 30px;
+}
+.equation {
+  margin: 24px 0;
+  padding: 18px 0 18px 20px;
+  border-left: 2px solid var(--line);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.9;
+  overflow-x: auto;
+}
+.equation > div { white-space: nowrap; }
+.equation-continuation { padding-left: 40px; }
+.method-detail {
+  border-block: 1px solid var(--line);
+  margin: 24px 0;
+  padding: 18px 0;
+}
+.method-detail summary {
+  cursor: pointer;
+  font-weight: 500;
+  line-height: 1.6;
+  list-style: revert;
+}
+.method-detail[open] summary { margin-bottom: 20px; }
+.method-detail pre,
+.algorithm-example pre {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.9;
+  overflow-x: auto;
+  padding: 16px 0;
+}
+.method-detail code,
+.algorithm-example code { font: inherit; }
+.algorithm-example {
+  border-block: 1px solid var(--line);
+  padding-block: 24px;
+  margin-block: 28px;
+}
+.algorithm-example .eyebrow { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .equation { font-size: 16px; padding-left: 12px; }
+  .equation-continuation { padding-left: 20px; }
+  .method-detail pre, .algorithm-example pre { font-size: 11px; }
+}
 .study-table tbody th {
   font-weight: 500;
   vertical-align: top;
