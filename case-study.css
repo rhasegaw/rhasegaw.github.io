@@ -208,6 +208,18 @@
   padding: 14px 12px 14px 0;
   border-block: 1px solid var(--line);
 }
+.study-table caption {
+  text-align: left;
+  color: var(--muted);
+  font-size: 12px;
+  padding-bottom: 12px;
+}
+.study-table tbody th {
+  font-weight: 500;
+  vertical-align: top;
+  border-top: 0;
+  padding-block: 17px;
+}
 .study-table td {
   padding: 17px 15px 17px 0;
   border-bottom: 1px solid var(--line);

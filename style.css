@@ -1322,3 +1322,27 @@ summary::-webkit-details-marker {
   min-height: 44px;
   font-size: 12px;
 }
+.research-feature.agent-feature {
+  margin: 0 0 56px;
+  padding: 0 0 40px;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+}
+.agent-research-art {
+  padding: 0;
+  justify-content: center;
+  min-height: 280px;
+}
+.agent-research-art img {
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 760px) {
+  .research-feature.agent-feature {
+    margin-bottom: 36px;
+    padding-bottom: 30px;
+  }
+  .agent-research-art {
+    min-height: 0;
+  }
+}

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gemma agent research — Ryo Hasegawa</title>
+    <meta name="description" content="Agreement Is Not Behaviour: research on inference budgets, low-memory LoRA editing, and the reliability of a Gemma coding agent." />
+    <meta property="og:title" content="Gemma agent research — Ryo Hasegawa" />
+    <meta property="og:description" content="Inference budgets, low-memory model editing, and a controlled 152-run study of coding-agent behavior." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://rhasegaw.github.io/work/gemma.html" />
+    <link rel="canonical" href="https://rhasegaw.github.io/work/gemma.html" />
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/case-study.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/">Ryo Hasegawa<span>.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/#work">Work</a><a href="/#experience">Experience</a>
+        <a href="/#about">About</a><a class="nav-contact" href="/#contact">Let’s talk ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <div class="study-hero wrap">
+        <a class="study-back" href="/#work">← Back to selected work</a>
+        <div class="study-hero-grid">
+          <div>
+            <p class="eyebrow">Independent research / Coding agents / 2026</p>
+            <h1>Agreement is<br /><em>not behaviour.</em></h1>
+            <p class="study-standfirst">
+              How do time limits and targeted weight edits change a coding
+              agent’s decisions? I study both through complete software-repair
+              runs, connecting numerical optimization with observable behavior.
+            </p>
+          </div>
+          <figure class="study-image">
+            <img src="/img/agent-study.svg" width="600" height="360"
+              alt="A two-by-two experiment compares original and edited weights, each with a submission guard off and on." />
+            <figcaption>Study design: separate the model edit from the submission guard.</figcaption>
+          </figure>
+        </div>
+        <dl class="study-facts">
+          <div><dt>Model</dt><dd>Gemma-4-31B</dd></div>
+          <div><dt>Editing hardware</dt><dd>One 8 GB GPU</dd></div>
+          <div><dt>Prospective replication</dt><dd>36 fresh issues · 5 repositories</dd></div>
+          <div><dt>Execution cells</dt><dd>152 completed</dd></div>
+        </dl>
+        <div class="study-resources">
+          <div>
+            <p class="eyebrow">Agreement Is Not Behaviour</p>
+            <p>Research report submitted · public report link pending.</p>
+          </div>
+          <div class="project-links">
+            <a class="text-link" href="https://www.kaggle.com/competitions/gemma-4-developer-agent-paper">Paper competition ↗</a>
+          </div>
+        </div>
+      </div>
+      <div class="study-layout wrap">
+        <nav class="study-nav" aria-label="In this research study">
+          <p class="eyebrow">In this study</p>
+          <ol>
+            <li><a href="#question"><span>01</span>Research question</a></li>
+            <li><a href="#budgets"><span>02</span>Time budgets</a></li>
+            <li><a href="#editing"><span>03</span>Low-memory editing</a></li>
+            <li><a href="#evaluation"><span>04</span>Replication &amp; results</a></li>
+            <li><a href="#current-work"><span>05</span>Status &amp; next questions</a></li>
+          </ol>
+        </nav>
+        <article class="study-content">
+          <section class="study-section" id="question">
+            <p class="eyebrow">01 / Research question</p>
+            <h2>What makes a useful<br /><em>agent intervention?</em></h2>
+            <p>
+              A coding agent has to inspect a repository, edit files, test its
+              changes, and decide when to submit a patch. Each action consumes
+              a limited budget. Improving a local measurement only matters if
+              the complete run produces a correct repair.
+            </p>
+            <p>
+              I investigated two interventions: reallocating the agent’s
+              inference time and editing its submission decisions with LoRA.
+              The work combines runtime analysis, a memory-efficient editing
+              implementation, controlled evaluation tasks, and paired
+              comparisons of complete trajectories.
+            </p>
+            <div class="study-note">
+              <p class="eyebrow">Central finding</p>
+              <p>
+                An edit can preserve most ordinary-token outputs while changing
+                when an agent submits and whether it stops afterward. Those
+                properties need separate measurements, followed by repair tests.
+              </p>
+            </div>
+          </section>
+          <section class="study-section" id="budgets">
+            <p class="eyebrow">02 / Completed study</p>
+            <h2>Allocating a fixed<br /><em>inference budget.</em></h2>
+            <p>
+              I fitted a time model using agent steps and generated tokens,
+              then checked its transfer by holding out entire repositories.
+              Across 78 runs, the combined model had a mean absolute timing
+              error of 13.5 seconds, compared with 28.2 seconds for tokens alone.
+              These estimates use the steps and tokens observed in a run;
+              they do not predict an unknown future trajectory.
+            </p>
+            <p>
+              I then varied thinking budgets, tool-call limits, and model-turn
+              limits. One configuration removed timeouts on an eight-issue
+              local comparison while retaining three repairs, but its public
+              competition score fell from 0.15 to 0.08. Timing estimates also
+              transferred poorly when thinking mode changed.
+            </p>
+            <p>
+              The result identifies a practical evaluation requirement:
+              measure both resource use and repair quality, and recalibrate
+              the cost model when the execution mode changes.
+            </p>
+          </section>
+          <section class="study-section" id="editing">
+            <p class="eyebrow">03 / Method development</p>
+            <h2>Editing a 31B model<br /><em>with limited GPU memory.</em></h2>
+            <p>
+              I captured intermediate representations one decoder layer at a
+              time, keeping hidden states on CPU. This allowed the editing
+              procedure to use a single RTX 5060 with 8 GB of GPU memory,
+              without placing the full model on that GPU.
+            </p>
+            <p>
+              With one LoRA factor fixed, I derived and implemented a closed-form
+              refit of the other. A regularized quadratic objective balances
+              retaining the edit at 60 decision positions against suppressing
+              its effect at 18,927 ordinary positions.
+            </p>
+            <ol class="method-flow">
+              <li><strong>Formulate the optimization</strong>
+                Differentiate the objective with respect to the matrix factor and solve its
+                stationary condition. Check the positive-definite Hessian
+                conditions that establish a unique global minimum.
+              </li>
+              <li><strong>Reuse the expensive computation</strong>
+                Cache an eigendecomposition and use the Woodbury identity
+                to exploit the small number of decision rows during refitting.
+              </li>
+              <li><strong>Measure effects beyond the fitting objective</strong>
+                Compare intended submission decisions, false submissions,
+                ordinary-token agreement, termination, and actual repairs.
+              </li>
+            </ol>
+            <p>
+              The refit reached 98.97% agreement with the base model on the
+              ordinary-token evaluation, yet false submissions increased from
+              1 of 38 to 14 of 38 serving-probe cases. Preserving token choices
+              did not preserve the agent’s use of actions.
+            </p>
+          </section>
+          <section class="study-section" id="evaluation">
+            <p class="eyebrow">04 / Completed prospective replication</p>
+            <h2>Test the behavior.<br /><em>Then grade the repair.</em></h2>
+            <p>
+              I tested the frozen edit on 36 fresh issues from SymPy, Sphinx,
+              xarray, pylint, and pytest. These repositories were excluded from
+              edit development. Task selection, execution order, code and
+              weight hashes, and the primary hypothesis were recorded before
+              the first inference run.
+            </p>
+            <p>
+              Four conditions separate the model edit from a submission guard:
+              original or refitted weights, each with the guard off or on.
+              The 144 main executions were supplemented by eight repeat runs
+              on four preselected issues. Each run used a 300-second limit,
+              80 counted tool calls, and 80 model turns.
+            </p>
+            <table class="study-table">
+              <caption>Held-out test results · 36 issues per condition</caption>
+              <thead><tr><th scope="col">Condition</th><th scope="col">Model weights</th><th scope="col">Successful repairs</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Base</th><td>Original</td><td>4 / 36</td></tr>
+                <tr><th scope="row">Refit</th><td>Edited</td><td>4 / 36</td></tr>
+                <tr><th scope="row">Base + guard</th><td>Original</td><td>3 / 36</td></tr>
+                <tr><th scope="row">Refit + guard</th><td>Edited</td><td>4 / 36</td></tr>
+              </tbody>
+            </table>
+            <p>
+              Without the guard, the pre-specified submission signature—an
+              empty first submission or at least three generated submission
+              calls—occurred in 13 of 36 refit runs and none of the paired base
+              runs. The exact paired test gave <em>p</em> = 0.000244.
+              The base model nevertheless reached its time limit in 33 of 36
+              runs; the absence of that signature does not imply good termination.
+            </p>
+            <p>
+              Repair grading used the official Evaluator on Kaggle, with
+              passing gold-patch and failing empty-patch controls. The study
+              reproduced the submission anomaly in a different runtime and
+              scaffold, but did not establish improved repair performance.
+              Its scope is the same 31B model and frozen edit, not a
+              demonstration across model families.
+            </p>
+            <div class="study-note">
+              <p class="eyebrow">Reproducibility</p>
+              <p>
+                The submission includes task definitions, predictions, traces,
+                grading logs, and executable analyses. A hosted CPU notebook
+                completed 148 analysis checks. Reproducing those analyses is
+                separate from rerunning 31B inference.
+              </p>
+            </div>
+          </section>
+          <section class="study-section" id="current-work">
+            <p class="eyebrow">05 / Updated November 11, 2026</p>
+            <h2>Research status<br /><em>and next questions.</em></h2>
+            <p>
+              The report has been submitted, and the 152-run replication and
+              its repair grading are complete. DOI creation has been requested.
+              The report was submitted to the Gemma 4 Developer Agent Paper
+              competition on November 11, 2026.
+            </p>
+            <p>
+              The continuing research direction is to understand which
+              measurements reveal an agent’s behavior before deployment.
+              Follow-up questions include:
+            </p>
+            <ul>
+              <li>Whether explicitly training against false submissions and
+                testing post-submission states can improve action specificity
+                without sacrificing correct repairs.</li>
+              <li>Whether the same failure pattern appears in other models
+                and execution environments.</li>
+              <li>How to recalibrate resource budgets across reasoning modes
+                while preserving repair quality.</li>
+            </ul>
+            <p>
+              These are open questions, not completed findings. My contribution
+              so far spans mathematical derivation, low-memory implementation,
+              experimental controls, paired statistical analysis, and reporting
+              both successful and unsuccessful interventions.
+            </p>
+            <div class="study-sources">
+              <h3>Research record</h3>
+              <ul>
+                <li><em>Agreement Is Not Behaviour</em> — submitted research report.
+                  Public access and a DOI identifier are pending.</li>
+                <li><a href="https://www.kaggle.com/competitions/gemma-4-developer-agent-paper">Gemma 4 Developer Agent Paper competition</a></li>
+              </ul>
+              <p>
+                Ryo Hasegawa · November 2026. This summary reflects the
+                November 11 manuscript and completed evaluation records.
+              </p>
+            </div>
+          </section>
+        </article>
+      </div>
+      <section class="study-next">
+        <div class="wrap">
+          <div><p class="eyebrow">Related agent project</p><h2>Planning in a shared economy.</h2></div>
+          <a class="button" href="/work/kaggriculture.html">Read the case study ↗</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <span>© 2026 Ryo Hasegawa</span>
+      <a href="/credits.html">Colophon &amp; credits</a>
+      <a href="/#work">All selected work ↑</a>
+    </footer>
+  </body>
+</html>

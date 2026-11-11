@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-labelledby="title desc">
+  <title id="title">Separating a model edit from a submission guard</title>
+  <desc id="desc">Four experimental conditions combine original or edited model weights with a submission guard off or on. All conditions use the same held-out tasks and resource limits.</desc>
+  <rect width="600" height="360" fill="#e9e5db"/>
+  <g font-family="Arial, sans-serif" fill="#4b5742">
+    <text x="34" y="40" font-size="11" letter-spacing="2">AGENT BEHAVIOR / CONTROLLED STUDY</text>
+    <path d="M34 58H566" stroke="#c4c7b8"/>
+    <text x="262" y="97" text-anchor="middle" font-size="11">ORIGINAL WEIGHTS</text>
+    <text x="460" y="97" text-anchor="middle" font-size="11">EDITED WEIGHTS</text>
+    <text x="35" y="157" font-size="12">Guard off</text>
+    <text x="35" y="247" font-size="12">Guard on</text>
+    <g fill="#f5f3ed" stroke="#aeb5a4">
+      <rect x="171" y="114" width="182" height="70" rx="2"/>
+      <rect x="369" y="114" width="182" height="70" rx="2"/>
+      <rect x="171" y="204" width="182" height="70" rx="2"/>
+      <rect x="369" y="204" width="182" height="70" rx="2"/>
+    </g>
+    <g fill="#24271f" font-size="17" text-anchor="middle">
+      <text x="262" y="155">Base</text>
+      <text x="460" y="155">Refit</text>
+      <text x="262" y="245">Base + guard</text>
+      <text x="460" y="245">Refit + guard</text>
+    </g>
+    <g stroke="#a94026" stroke-width="2">
+      <path d="M369 114H551M369 204H551"/>
+    </g>
+    <path d="M34 300H566" stroke="#c4c7b8"/>
+    <text x="34" y="327" font-size="11">Same tasks. Same limits. Separate behavior and repair outcomes.</text>
+  </g>
+</svg>
