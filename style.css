@@ -815,6 +815,31 @@ summary::-webkit-details-marker {
   margin-inline: 9px;
   color: #929786;
 }
+.additional-learning {
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+  margin-top: 27px;
+}
+.additional-learning .eyebrow {
+  font-size: 9px;
+  margin: 0 0 17px;
+}
+.additional-learning dl {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.additional-learning dt {
+  color: var(--ink);
+  font-weight: 500;
+}
+.additional-learning dd {
+  margin: 2px 0 14px;
+  color: var(--muted);
+}
+.additional-learning dd:last-child {
+  margin-bottom: 0;
+}
 .contact-section {
   background: #303a2f;
   color: #f0eee4;
